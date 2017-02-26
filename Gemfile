@@ -8,6 +8,9 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails', '3.3.2'
   gem 'guard-rspec', '4.6.0'
+  gem 'spork-rails', '4.0.0'
+  gem 'guard-spork', '2.1.0'
+  gem 'childprocess', '0.6.2'
 end
 
 group :test do
@@ -15,6 +18,7 @@ group :test do
 	gem 'capybara','2.2.0'
 	gem 'zip'
 	gem 'test-unit'
+  gem 'sprockets', '2.11.0'
 end
 
 # Use SCSS for stylesheets
