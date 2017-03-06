@@ -1,65 +1,44 @@
 require 'spec_helper'
 
 describe "Static pages" do
-	let(:base_title) {"ROR Sample App"}
+	#let(:base_title) {"ROR Sample App"}
+
+	subject { page }
 	describe "Home page" do
-		it "should have the content 'Sample App'" do
-			visit '/static_pages/home'
-			expect(page).to have_content('Sample App')
-		end
+		before { visit '/' }
+		it { should have_content('Sample App') }
+		it { should have_title(full_title('')) }
+		it { should_not have_title('|Home') }
 	end
+
 	describe "Help page" do
-		it "should have the content 'Help'" do
-			visit '/static_pages/help'
-			expect(page).to have_content('Help')
-		end
+		before { visit '/help'}
+		it { should have_content('Help') }
+		it { should have_title(full_title('Help')) }
 	end
+
 	describe "About page" do
-		it "should have the content 'About Us'" do
-			visit '/static_pages/about'
-			expect(page).to have_content('About Us')
-		end
+		before { visit '/about'}
+		it { should have_content('About Us') }
+		it { should have_title(full_title('About Us')) }
 	end
-	describe "Title" do
-		it "should have the right title" do
-			visit '/static_pages/home'
-			expect(page).to have_title("#{base_title}|Home")
-		end
-	end
-	describe "Title" do
-		it "should have the right title" do
-			visit '/static_pages/help'
-			expect(page).to have_title("#{base_title}|Help")
-		end
-	end
-	describe "Title" do
-		it "should have the right title" do
-			visit '/static_pages/about'
-			expect(page).to have_title("#{base_title}|About")
-		end
-	end
+
 	describe "Contact" do
-		it "should have the content 'Contact Us'" do
-			visit '/static_pages/contact'
-			expect(page).to have_content('Contact Us')
-		end
+		before { visit '/contact'}
+		it { should have_content('Contact') }
+		it { should have_title(full_title("Contact Us")) }
 	end
-	describe "Contact" do
-		it "should have the right title" do
-			visit '/static_pages/contact'
-			expect(page).to have_title("#{base_title}|Contact Us")
-		end
-	end
+	
 	describe "Test" do
 		it "should have the content 'Test'" do
 			visit '/static_pages/test'
 			expect(page).to have_content('Test')
 		end
 	end
-	describe "Test" do
+	describe "Test Title" do
 		it "should have the right title" do
 			visit '/static_pages/test'
-			expect(page).to have_title("#{base_title}")
+			expect(page).to have_title("ROR Sample App")
 		end
 	end
 end
