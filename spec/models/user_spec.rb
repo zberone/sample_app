@@ -1,8 +1,10 @@
 require 'spec_helper'
 
+=begin
 RSpec.describe User, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
+
 
 describe User do
 	before do
@@ -22,7 +24,7 @@ describe User do
 	it { should respond_to(:authenticate) }
 
 #	it { should be_valid }
-	
+
 	describe "when name is not present" do
 		before { @user.name = " "}
 		it { should_not be_valid }
@@ -64,7 +66,7 @@ describe User do
 		it { should be_invalid }
 	end
 
-=begin
+	
 	describe "return value of authenticate method" do
 		before { @user.save }
 		let(:found_user) { User.find_by(email: @user.email) }
@@ -74,9 +76,10 @@ describe User do
 		describe "with invalid password" do
 			let(:user_for_invalid_password) { found_user.authenticate("invalid") }
 			it { should_not eq user_for_invalid_password }
-			specify { expect( user_for_invalid_password).to be_false }
+			specify { expect(user_for_invalid_password).to be_false }
 		end
 	end
-=end
 
 end
+=end
+

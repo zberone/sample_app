@@ -4,27 +4,29 @@ describe "Static pages" do
 	#let(:base_title) {"ROR Sample App"}
 
 	subject { page }
+
+=begin	
 	describe "Home page" do
-		before { visit '/' }
+		before { visit root_path }
 		it { should have_content('Sample App') }
 		it { should have_title(full_title('')) }
 		it { should_not have_title('|Home') }
 	end
 
 	describe "Help page" do
-		before { visit '/help'}
+		before { visit help_path }
 		it { should have_content('Help') }
 		it { should have_title(full_title('Help')) }
 	end
 
 	describe "About page" do
-		before { visit '/about'}
+		before { visit about_path }
 		it { should have_content('About Us') }
 		it { should have_title(full_title('About Us')) }
 	end
 
 	describe "Contact" do
-		before { visit '/contact'}
+		before { visit contact_path}
 		it { should have_content('Contact') }
 		it { should have_title(full_title("Contact Us")) }
 	end
@@ -43,7 +45,7 @@ describe "Static pages" do
 	end
 
 	it "should have the right links on the layout" do
-		visit '/'
+		visit root_path
 		click_link "About"
 		expect(page).to have_title(full_title('About Us'))
 		click_link "Help"
@@ -56,4 +58,7 @@ describe "Static pages" do
 		# click_link "sample app"
 		# expect(page).to have_title(full_title('#'))
 	end
+=end
+
+
 end
