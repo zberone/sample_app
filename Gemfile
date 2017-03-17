@@ -14,6 +14,7 @@ group :development, :test do
   gem 'guard-spork', '2.1.0'
   gem 'childprocess', '0.6.2'
   gem 'rake', '< 11.0'
+  gem 'rspec-its'
 end
 
 group :test do
