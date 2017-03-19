@@ -1,4 +1,3 @@
-<%= @user.name %>----<%= @user.email %>
 <% provide( :title, @user.name) %>
 
 <div class="row">
@@ -6,7 +5,10 @@
 		<section>
 			<h1>
 				<%= gravatar_for @user %>
+				<td>
 				<%= @user.name %>
+				<%= @user.email %>
+				</td>
 			</h1>
 		</section>
 	</aside>
