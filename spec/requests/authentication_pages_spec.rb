@@ -38,6 +38,7 @@ describe "Authentication" do
 			it { should have_link('Sign out', href: signout_path)}
 			it { should_not have_link('Sign in', href: signin_path)}
 			it { should have_link('Settings', href: edit_user_path(user))}
+			it { should have_link('Users', href: users_path)}
 
 			describe "followed by signout" do
 				before { click_link "Sign out"}
@@ -69,6 +70,10 @@ describe "Authentication" do
 					expect(page).to have_title('Edit user')
 				end
 			end
+		end
+		describe "visiting the user index" do
+			before { visit users_path }
+			it { should have_title('Sign in')}
 		end
 	end
 	describe "as wrong user" do
