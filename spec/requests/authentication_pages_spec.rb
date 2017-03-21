@@ -80,12 +80,22 @@ describe "Authentication" do
 		let(:user){ FactoryGirl.create(:user)}
 		let(:wrong_user){ FactoryGirl.create(:user, email: "wrong@example.com")}
 		before { sign_in user, no_capybara:true }
-		describe "visiting Users#edit page" do
+		describe "visiting Users#edit page", type: :request do
 			before { visit edit_user_path(wrong_user)}
 			it{ should_not have_title(full_title('Edit user'))}
 		end
 		describe "submitting a PATCH request to the Users#update action", type: :request do
 			before { patch user_path(wrong_user)}
+			specify { expect(response).to redirect_to(root_path)}
+		end
+	end
+	describe "as non-admin user" do
+		let(:user){ FactoryGirl.create(:user)}
+		let(:non_admin){ FactoryGirl.create(:user)}
+
+		before {sign_in non_admin, no_capybara: true }
+		describe "submitting a DELETE request to the Users#destroy action", type: :request do
+			before { delete user_path(user)}
 			specify { expect(response).to redirect_to(root_path)}
 		end
 	end
