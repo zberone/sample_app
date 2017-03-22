@@ -11,13 +11,13 @@ gem 'bootstrap-will_paginate', '0.0.9'
 group :development, :test do
 # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
-  gem 'rspec-rails', '3.3.2'
+  gem 'rspec-rails', '2.13.1'
 #  gem 'guard-rspec', '4.6.0'
 #  gem 'spork-rails', '4.0.0'
 #  gem 'guard-spork', '2.1.0'
 #  gem 'childprocess', '0.6.2'
   gem 'rake', '< 11.0'
-  gem 'rspec-its'
+#  gem 'rspec-its'
 end
 
 group :test do
