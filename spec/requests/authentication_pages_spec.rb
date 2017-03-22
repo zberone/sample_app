@@ -13,6 +13,8 @@ end
 
 describe "Authentication" do
 	subject {page}
+
+=begin
 	describe "signin page" do
 		before { visit signin_path }
 		it { should have_content( 'Sign in')}
@@ -99,5 +101,6 @@ describe "Authentication" do
 			specify { expect(response).to redirect_to(root_path)}
 		end
 	end
-	
+=end
+
 end

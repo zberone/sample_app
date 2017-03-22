@@ -83,7 +83,7 @@ describe User do
 		before { @user.save }
 		its(:remember_token) { should_not be_blank }
 	end
-=end
+
 
 	describe "with admin attribute set to 'true' " do
 		before do
@@ -93,7 +93,7 @@ describe User do
 
 		it { should be_admin }
 	end
-	
+=end	
 end
 
 
