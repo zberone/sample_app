@@ -18,6 +18,11 @@ class User < ActiveRecord::Base
 		SecureRandom.urlsafe_base64
 	end
 
+	def feed
+		# this is preliminary.See "Following users" for the full inplementation.
+		Micropost.where("user_id = ?", id)
+	end
+
 	def User.encrypt(token)
 		Digest::SHA1.hexdigest(token.to_s)
 	end

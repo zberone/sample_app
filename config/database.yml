@@ -19,7 +19,7 @@ test:
   timeout: 5000
 
 production:
-  <<: *default
+#  <<: *default
   host: localhost
   adapter: postgresql
   encodeing: utf8

@@ -1,15 +1,5 @@
 require 'spec_helper'
 
-=begin
-RSpec.describe "AuthenticationPages", type: :request do
-  describe "GET /authentication_pages" do
-    it "works! (now write some real specs)" do
-      get authentication_pages_index_path
-      expect(response).to have_http_status(200)
-    end
-  end
-end
-=end
 
 describe "Authentication" do
 	subject {page}
@@ -48,6 +38,8 @@ describe "Authentication" do
 			end
 		end
 	end
+=end
+
 	describe "for non-signed-in users" do
 		let(:user){FactoryGirl.create(:user)}
 		describe "in the Users controller" do
@@ -77,7 +69,19 @@ describe "Authentication" do
 			before { visit users_path }
 			it { should have_title('Sign in')}
 		end
+		describe "in the Microposts controller" do
+			describe "submitting to the create action", type: :request do
+				before { post microposts_path }
+				specify { expect(response).to redirect_to(signin_path)}
+			end
+			describe "submitting to the destroy action", type: :request do
+				before { delete microposts_path(FactoryGirl.create(:micropost))}
+				specify { expect(response).to redirect_to(signin_path)}
+			end
+		end
 	end
+
+=begin
 	describe "as wrong user" do
 		let(:user){ FactoryGirl.create(:user)}
 		let(:wrong_user){ FactoryGirl.create(:user, email: "wrong@example.com")}
@@ -102,5 +106,6 @@ describe "Authentication" do
 		end
 	end
 =end
+
 
 end
