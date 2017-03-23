@@ -29,12 +29,15 @@ windows 10
 2.加载JS，路由出错，修改routes.rb
 match '/signout', to: 'sessions#destroy', via: 'delete' <<<>>><%= link_to "Sign out",signout_path, method: "delete"%>
 
-3.rspec不用加载具名路由，添加如下spec_helper.rb
+3.rspec不能加载具名路由，添加如下spec_helper.rb
 RSpec.configure do |config|
 config.include Rails.application.routes.url_helpers
 end
 
 get '/signout', to: 'sessions#destroy', via: 'delete' <<<>>><%= link_to "Sign out",signout_path %>
+
+4.rspec NameError:undefined local variable or method `cookies'
+在describe "****" do中添加请求类型 type: :request， 如：describe "****", type: :request do
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.

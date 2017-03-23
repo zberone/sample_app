@@ -5,17 +5,19 @@ gem 'rails', '4.0.0'
 gem 'bootstrap-sass', '2.3.2.0'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.1.2'
+gem 'will_paginate', '3.0.4'
+gem 'bootstrap-will_paginate', '0.0.9'
 
 group :development, :test do
 # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
-  gem 'rspec-rails', '3.3.2'
-  gem 'guard-rspec', '4.6.0'
-  gem 'spork-rails', '4.0.0'
-  gem 'guard-spork', '2.1.0'
-  gem 'childprocess', '0.6.2'
+  gem 'rspec-rails', '2.13.1'
+#  gem 'guard-rspec', '4.6.0'
+#  gem 'spork-rails', '4.0.0'
+#  gem 'guard-spork', '2.1.0'
+#  gem 'childprocess', '0.6.2'
   gem 'rake', '< 11.0'
-  gem 'rspec-its'
+#  gem 'rspec-its'
 end
 
 group :test do
@@ -66,3 +68,8 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+group :production do
+  gem 'pg', '0.15.1'
+  gem 'rails_12factor', '0.0.2'
+end
