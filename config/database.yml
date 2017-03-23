@@ -26,10 +26,5 @@ production:
   database: sample_app
   pool: 5
   timeout: 5000
-<<<<<<< HEAD
-  username: <%= ENV['DATABASE_USER'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
-=======
   username: <%= ENV['SAMPLE_DATABASE_USER'] %>
   password: <%= ENV['SAMPLE_DATABASE_PASSWORD'] %>
->>>>>>> 83e251feafc06d4ac629af2bb05d78c0083551b5
