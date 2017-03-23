@@ -79,6 +79,7 @@ GEM
     pg (0.15.1-x64-mingw32)
     polyglot (0.3.5)
     power_assert (1.0.1)
+    puma (3.8.2)
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -171,6 +172,7 @@ DEPENDENCIES
   jbuilder (= 1.0.2)
   jquery-rails (= 2.2.1)
   pg (= 0.15.1)
+  puma
   rails (= 4.0.0)
   rails_12factor (= 0.0.2)
   rake (< 11.0)
