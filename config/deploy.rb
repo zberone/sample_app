@@ -10,10 +10,10 @@ require 'mina/git'
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, 'sample_app'
-set :domain, 'root@192.168.11.190'
-set :deploy_to, '/var/www/sample_app'
+set :domain, 'sl@192.168.11.190'
+set :deploy_to, '/home/sl/rwork/sample_app'
 set :repository, 'https://github.com/zberone/sample_app.git'
-set :branch, 'master'
+set :branch, 'sign'
 
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
