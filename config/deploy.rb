@@ -3,7 +3,7 @@ require 'mina/git'
 require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
 # require 'mina/rvm'    # for rvm support. (https://rvm.io)
 # require 'mina/puma'
-# require 'mina/logs'
+require 'mina/logs'
 # Basic settings:
 #   domain       - The hostname to SSH to.
 #   deploy_to    - Path to deploy into.
@@ -17,14 +17,14 @@ set :repository, 'https://github.com/zberone/sample_app.git'
 set :branch, 'sign'
 
 # Optional settings:
-#   set :user, 'foobar'          # Username in the server to SSH to.
+# set :user, ''          # Username in the server to SSH to.
 #   set :port, '30000'           # SSH port number.
 #   set :forward_agent, true     # SSH forward_agent.
-
+# set :password, ''
 # shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
- set :shared_dirs, fetch(:shared_dirs, []).push('log')
- set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml', 'log')
-# set :shared_paths, ['config/database.yml', 'log', 'config/secrets.yml']
+# set :shared_dirs, fetch(:shared_dirs, []).push('log')
+# set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml', 'log')
+ set :shared_paths, ['config/database.yml', 'log', 'config/secrets.yml']
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
@@ -39,17 +39,45 @@ end
 
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
-task :setup do
+# task :setup do
+task :setup => :environment do
   # command %{rbenv install 2.3.0}
-  ['log', 'config', 'public/upload', 'tmp/pids', 'tmp/sockets'].each do |dir|
-        command %{mkdir -p "fetch(:deploy_to)/shared/#{dir}"}
-        command %{chmod g+rx,u+rwx "fetch(:deploy_to)/shared/#{dir}"}
-  end
 
-  ['config/database.yml', 'config/secrets.yml', 'config/puma.rb'].each do |file|
-        command %{touch "fetch(:deploy_to)/shared/#{file}"}
-        comment %{Be sure to edit 'shared/#{file}'.}
-  end
+
+  # 在服务器项目目录的shared中创建log文件夹
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
+
+  # 在服务器项目目录的shared中创建config文件夹 下同
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
+
+  queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
+  queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
+
+  # puma.rb 配置puma必须得文件夹及文件
+  queue! %[mkdir -p "#{deploy_to}/shared/tmp/pids"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/tmp/pids"]
+
+  queue! %[mkdir -p "#{deploy_to}/shared/tmp/sockets"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/tmp/sockets"]
+
+  queue! %[touch "#{deploy_to}/shared/config/puma.rb"]
+  queue  %[echo "-----> Be sure to edit 'shared/config/puma.rb'."]
+
+  # tmp/sockets/puma.state
+  queue! %[touch "#{deploy_to}/shared/tmp/sockets/puma.state"]
+  queue  %[echo "-----> Be sure to edit 'shared/tmp/sockets/puma.state'."]
+
+  # log/puma.stdout.log
+  queue! %[touch "#{deploy_to}/shared/log/puma.stdout.log"]
+  queue  %[echo "-----> Be sure to edit 'shared/log/puma.stdout.log'."]
+
+  # log/puma.stdout.log
+  queue! %[touch "#{deploy_to}/shared/log/puma.stderr.log"]
+  queue  %[echo "-----> Be sure to edit 'shared/log/puma.stderr.log'."]
+
+  queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
 end
 
 desc "Deploys the current version to the server."
