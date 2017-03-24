@@ -1,116 +1,67 @@
-# https://github.com/insub/mina
-# Really fast deployer and server automation tool. Modif for windows. 
-require 'mina/rails'
-require 'mina/git'
-require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
-# require 'mina/rvm'    # for rvm support. (https://rvm.io)
-require 'mina/puma'
-require 'mina/logs'
-# Basic settings:
-#   domain       - The hostname to SSH to.
-#   deploy_to    - Path to deploy into.
-#   repository   - Git repo to clone from. (needed by mina/git)
-#   branch       - Branch name to deploy. (needed by mina/git)
+require 'mina/bundler'
+    require 'mina/rails'
+    require 'mina/git'
+    
+   # set :user, 'deploy'
+    set :domain, 'sl@192.168.11.190'
+    set :deploy_to, '/home/sl/rwork/sample_app'
+    set :repository, 'https://github.com/zberone/sample_app.git'
+    set :branch, 'sign'
+    set :forward_agent, true
+    set :app_path, lambda { "#{deploy_to}/#{current_path}" }
+    set :stage, 'production'
+  #  set :rvm_path, '/home/deploy/.rvm/bin/rvm'
 
-set :application_name, 'sample_app'
-set :domain, 'sl@192.168.11.190'
-set :deploy_to, '/home/sl/rwork/sample_app'
-set :repository, 'https://github.com/zberone/sample_app.git'
-set :branch, 'sign'
+    set :shared_paths, ['config/database.yml', 'log']
 
-# Optional settings:
-# set :user, ''          # Username in the server to SSH to.
-#   set :port, '30000'           # SSH port number.
-#   set :forward_agent, true     # SSH forward_agent.
-# set :password, ''
-# shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
-# set :shared_dirs, fetch(:shared_dirs, []).push('log')
-# set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml', 'log')
- set :shared_paths, ['config/database.yml', 'log', 'config/secrets.yml']
+    task :environment do
+    #  invoke :'rvm:use[ruby-2.0.0-p643@default]'
+    end
 
-# This task is the environment that is loaded for all remote run commands, such as
-# `mina deploy` or `mina rake`.
-task :environment do
-  # If you're using rbenv, use this to load the rbenv environment.
-  # Be sure to commit your .ruby-version or .rbenv-version to your repository.
-  invoke :'rbenv:load'
+    task :setup => :environment do
+      queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
+      queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
 
-  # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use', 'ruby-1.9.3-p125@default'
-end
+      queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
+      queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
 
-# Put any custom commands you need to run at setup
-# All paths in `shared_dirs` and `shared_paths` will be created on their own.
-# task :setup do
-task :setup => :environment do
-  # command %{rbenv install 2.3.0}
+      queue! %[mkdir -p "#{deploy_to}/#{shared_path}/tmp"]
+      queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp"]
 
+      queue! %[mkdir -p "#{deploy_to}/#{shared_path}/tmp/sockets"]
+      queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp/sockets"]
 
-  # 在服务器项目目录的shared中创建log文件夹
-  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
+      queue! %[mkdir -p "#{deploy_to}/#{shared_path}/tmp/pids"]
+      queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp/pids"] 
 
-  # 在服务器项目目录的shared中创建config文件夹 下同
-  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
+      queue! %[mkdir -p "#{deploy_to}/#{shared_path}/tmp/log"]
+      queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp/log"] 
 
-  queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
-  queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
+      queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
+      queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
+    end
 
-  # puma.rb 配置puma必须得文件夹及文件
-  queue! %[mkdir -p "#{deploy_to}/shared/tmp/pids"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/tmp/pids"]
+    desc "Deploys the current version to the server."
+    task :deploy => :environment do
+      to :before_hook do
+      end
+      deploy do
+        invoke :'git:clone'
+        invoke :'deploy:link_shared_paths'
+        invoke :'bundle:install'
+   #     queue! "cd #{app_path} & RAILS_ENV=#{stage} bundle exec rake db:create"
+        invoke :'rails:db_migrate'
+    #    queue! "cd #{app_path} & RAILS_ENV=#{stage} bundle exec rake db:seed"
+        invoke :'rails:assets_precompile'
+        invoke :'deploy:cleanup'
+        invoke :'puma:restart'
 
-  queue! %[mkdir -p "#{deploy_to}/shared/tmp/sockets"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/tmp/sockets"]
-
-  queue! %[touch "#{deploy_to}/shared/config/puma.rb"]
-  queue  %[echo "-----> Be sure to edit 'shared/config/puma.rb'."]
-
-  # tmp/sockets/puma.state
-  queue! %[touch "#{deploy_to}/shared/tmp/sockets/puma.state"]
-  queue  %[echo "-----> Be sure to edit 'shared/tmp/sockets/puma.state'."]
-
-  # log/puma.stdout.log
-  queue! %[touch "#{deploy_to}/shared/log/puma.stdout.log"]
-  queue  %[echo "-----> Be sure to edit 'shared/log/puma.stdout.log'."]
-
-  # log/puma.stdout.log
-  queue! %[touch "#{deploy_to}/shared/log/puma.stderr.log"]
-  queue  %[echo "-----> Be sure to edit 'shared/log/puma.stderr.log'."]
-
-  queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
-end
-
-desc "Deploys the current version to the server."
-task :deploy => :environment do
-  # uncomment this line to make sure you pushed your local branch to the remote origin
-  # invoke :'git:ensure_pushed'
-  to :before_hook do
-  deploy do
-    # Put things that will set up an empty directory into a fully set-up
-    # instance of your project.
-    invoke :'git:clone'
-    invoke :'deploy:link_shared_paths'
-    invoke :'bundle:install'
-   # invoke :'rails:db_migrate'
-   # invoke :'rails:assets_precompile'
-    invoke :'deploy:cleanup'
-    invoke :'puma:restart'
-
-    on :launch do
-      in_path(fetch(:current_path)) do
-        command %{mkdir -p tmp/}
-        command %{touch tmp/restart.txt}
+        to :launch do      
+        end
       end
     end
-  end
 
-  # you can use `run :local` to run tasks on local machine before of after the deploy scripts
-  # run(:local){ say 'done' }
-
-end
-namespace :puma do 
+    namespace :puma do 
       desc "Start the application"
       task :start do
         queue 'echo "-----> Start Puma"'  
@@ -128,7 +79,4 @@ namespace :puma do
         queue 'echo "-----> Restart Puma"'
         queue "cd #{app_path} && RAILS_ENV=#{stage} && bin/puma.sh restart"
       end
-end
-# For help in making your deploy script, see the Mina documentation:
-#
-#  - https://github.com/mina-deploy/mina/tree/master/docs
+    end
