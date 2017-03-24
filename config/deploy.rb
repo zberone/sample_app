@@ -14,7 +14,7 @@ require 'mina/logs'
 
 set :application_name, 'sample_app'
 set :domain, 'sl@192.168.11.190'
-set :deploy_to, '/var/www/sample_app'
+set :deploy_to, '/home/sl/rwork/sample_app'
 set :repository, 'https://github.com/zberone/sample_app.git'
 set :branch, 'sign'
 
@@ -96,6 +96,7 @@ task :deploy => :environment do
    # invoke :'rails:db_migrate'
    # invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
+    invoke :'puma:restart'
 
     on :launch do
       in_path(fetch(:current_path)) do
@@ -107,8 +108,27 @@ task :deploy => :environment do
 
   # you can use `run :local` to run tasks on local machine before of after the deploy scripts
   # run(:local){ say 'done' }
-end
 
+end
+namespace :puma do 
+      desc "Start the application"
+      task :start do
+        queue 'echo "-----> Start Puma"'  
+        queue "cd #{app_path} && RAILS_ENV=#{stage} && bin/puma.sh start", :pty => false
+      end
+
+      desc "Stop the application"
+      task :stop do
+        queue 'echo "-----> Stop Puma"'
+        queue "cd #{app_path} && RAILS_ENV=#{stage} && bin/puma.sh stop"
+      end
+
+      desc "Restart the application"
+      task :restart do
+        queue 'echo "-----> Restart Puma"'
+        queue "cd #{app_path} && RAILS_ENV=#{stage} && bin/puma.sh restart"
+      end
+end
 # For help in making your deploy script, see the Mina documentation:
 #
 #  - https://github.com/mina-deploy/mina/tree/master/docs
