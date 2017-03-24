@@ -1,8 +1,10 @@
+# https://github.com/insub/mina
+# Really fast deployer and server automation tool. Modif for windows. 
 require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
 # require 'mina/rvm'    # for rvm support. (https://rvm.io)
-# require 'mina/puma'
+require 'mina/puma'
 require 'mina/logs'
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -12,7 +14,7 @@ require 'mina/logs'
 
 set :application_name, 'sample_app'
 set :domain, 'sl@192.168.11.190'
-set :deploy_to, '/home/sl/rwork/sample_app'
+set :deploy_to, '/var/www/sample_app'
 set :repository, 'https://github.com/zberone/sample_app.git'
 set :branch, 'sign'
 
@@ -84,14 +86,15 @@ desc "Deploys the current version to the server."
 task :deploy => :environment do
   # uncomment this line to make sure you pushed your local branch to the remote origin
   # invoke :'git:ensure_pushed'
+  to :before_hook do
   deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    invoke :'rails:db_migrate'
-    invoke :'rails:assets_precompile'
+   # invoke :'rails:db_migrate'
+   # invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
     on :launch do
