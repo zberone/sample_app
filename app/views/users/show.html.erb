@@ -4,10 +4,9 @@
 	<aside class="span4">
 		<section>
 			<h1>
-				<%= gravatar_for @user %>
-				<td>
-				<%= @user.name %>
-				<%= @user.email %>
+				<span><%= gravatar_for @user %></span><br><br><br><br><br><br><br><br>
+				<span><%= @user.name %></span>
+				<span><%= @user.email %></span>
 				</td>
 			</h1>
 		</section>
@@ -16,9 +15,9 @@
 	<% if @user.microposts.any? %>
 		<h3>Microposts (<%= @user.microposts.count %>) </h3>
 		<ol class="microposts">
-		<%= render @microposts %>
+		<%= render @microposts ,collection: current_user %>
 		</ol>
-		<%= will_paginate @microposts %>
+		
 		<% end %>
 	</div>
 </div>
