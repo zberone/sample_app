@@ -39,7 +39,7 @@ describe "Authentication" do
 		end
 	end
 =end
-
+=begin
 	describe "for non-signed-in users" do
 		let(:user){FactoryGirl.create(:user)}
 		describe "in the Users controller" do
@@ -80,7 +80,7 @@ describe "Authentication" do
 			end
 		end
 	end
-
+=end
 =begin
 	describe "as wrong user" do
 		let(:user){ FactoryGirl.create(:user)}
