@@ -2,13 +2,20 @@
 
 <div class="row">
 	<aside class="span4">
+	<section>
+		<%= gravatar_for @user %>
+	</section>
 		<section>
-			<h1>
-				<span><%= gravatar_for @user %></span><br><br><br><br><br><br><br><br>
+			<h1>	
 				<span><%= @user.name %></span>
 				<span><%= @user.email %></span>
-				</td>
 			</h1>
+		</section>
+		<section>
+		<%= render 'shared/stats' %>
+		</section>
+		<section>
+		<%= render 'follow_form' if signed_in? %>
 		</section>
 	</aside>
 	<div class="span8">

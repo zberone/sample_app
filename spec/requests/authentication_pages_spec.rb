@@ -3,7 +3,6 @@ require 'spec_helper'
 
 describe "Authentication" do
 	subject {page}
-
 =begin
 	describe "signin page" do
 		before { visit signin_path }
@@ -39,7 +38,7 @@ describe "Authentication" do
 		end
 	end
 =end
-=begin
+
 	describe "for non-signed-in users" do
 		let(:user){FactoryGirl.create(:user)}
 		describe "in the Users controller" do
@@ -51,7 +50,16 @@ describe "Authentication" do
 				before { patch user_path(user)}
 				specify { expect(response).to redirect_to(signin_path) }
 			end
+			describe "visiting the following page" do
+				before { visit following_user_path(user)}
+				it { should have_title('Sign in')}
+			end
+			describe "visiting the followers page" do
+				before { visit followers_user_paht(user)}
+				it { should have_title('Sign in')}
+			end
 		end
+=begin
 		describe "when attempting to visit a protected page" do
 			before do
 				visit edit_user_path(user)
@@ -79,8 +87,9 @@ describe "Authentication" do
 				specify { expect(response).to redirect_to(signin_path)}
 			end
 		end
-	end
 =end
+	end
+
 =begin
 	describe "as wrong user" do
 		let(:user){ FactoryGirl.create(:user)}

@@ -1,13 +1,10 @@
 <li>
 	<%= gravatar_for user %>
-		<td>
-			<br><%= link_to user.name, user %></br>
-			<br><%= user.email %></br>
-			<br>
-				<% if current_user.admin? && !current_user?(user) %>
-					<%= link_to "delete", user, method: :delete,
+		
+			<%= link_to user.name, user %>
+			<%= user.email %></br>
+			<% if current_user.admin? && !current_user?(user) %>
+			<%= link_to "delete", user, method: :delete,
 											data: { confirm: "You sure?"} %>
 				<% end %>
-			</br>
-		</td>
 </li>
