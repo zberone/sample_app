@@ -9,7 +9,7 @@ describe Micropost do
 	it { should respond_to(:user_id) }
 	it { should respond_to(:user) }
 	its(:user){ should eq user }
-
+=begin
 	it{should be_valid }
 	describe "when user_id is not present" do
 		before { @micropost.user_id =nil }
@@ -27,5 +27,5 @@ describe Micropost do
 		before {@micropost.content ="a"*141}
 		it{should_not be_valid }
 	end
-	
+=end	
 end

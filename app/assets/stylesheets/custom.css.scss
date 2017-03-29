@@ -132,12 +132,13 @@ aside {
 			margin-bottom: 3px;
 		}
 	}
-}
-
-.gravatar {
+	.gravatar {
 	float: left;
 	margin-right: 10px;
 }
+}
+
+
 
 /* forms */
 input, textarea, select, .uneditable-input {
@@ -185,6 +186,12 @@ height: auto !important;
 	padding: 10px 0;
 	border-top: 1px solid #e8e8e8;
 	}
+	.gravatar {
+	float: left;
+	margin-right: 10px;
+	width: 60px;
+	height: 60px; 
+
 }
 .content {
 	display: block;
@@ -192,13 +199,11 @@ height: auto !important;
 .timestamp {
 	color: $grayLight;
 }
-.gravatar {
-	float: left;
-	margin-right: 10px;
-}
+
 aside {
 	textarea {
 	height: 100px;
 	margin-bottom: 5px;
 	}
+}
 }

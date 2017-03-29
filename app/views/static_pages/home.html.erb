@@ -10,24 +10,11 @@
 			</section>
 		</aside>
 		<div class="span8">
-		<h3>Micropost Feed</h3>
-		<%= render 'shared/feed' %>
+			<h3>Micropost Feed</h3>
+			<%= render 'shared/feed' %>
 		</div>
 	</div>
-	<% else %>
-<div class="center hero-unit">
-	<h1>Welcome to the Sample App</h1>
-	<h2>
-		<p>
-	Find me in app/views/static_pages/home.html.erb
-</p>
-<p>
-	This is the home page for the
-	<a href="https://www.baidu.com">百度首页</a>
-	sample application.
-</p>
-	</h2>
-	<%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
-</div>
-<%= link_to image_tag("rails-logo.svg", alt: "图挂了"), 'http://rubyonrails.org/' %>
+<% else %>
+	<div class="center hero-unit">
+	<%= render 'shared/home_not_login' %>
 <% end %>

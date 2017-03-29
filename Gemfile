@@ -19,7 +19,7 @@ group :development, :test do
   gem 'rake', '< 11.0'
 #  gem 'rspec-its'
   gem 'mina', group: :development
-  gem 'mina-puma', require: false
+
   gem 'mina-logs', require: false
 end
 
@@ -76,4 +76,5 @@ group :production do
   gem 'pg', '0.15.1'
   gem 'rails_12factor', '0.0.2'
   gem 'puma'
+    gem 'mina-puma', require: false
 end
