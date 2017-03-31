@@ -7,6 +7,7 @@ gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
+gem 'puma'
 
 group :development, :test do
 # Use sqlite3 as the database for Active Record
@@ -19,7 +20,6 @@ group :development, :test do
   gem 'rake', '< 11.0'
 #  gem 'rspec-its'
   gem 'mina', group: :development
-
   gem 'mina-logs', require: false
 end
 
@@ -64,7 +64,7 @@ end
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+#  gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
@@ -75,6 +75,4 @@ end
 group :production do
   gem 'pg', '0.15.1'
   gem 'rails_12factor', '0.0.2'
-  gem 'mina-sidekiq', :require => false 
-  gem 'mina-unicorn', :require => false  
 end

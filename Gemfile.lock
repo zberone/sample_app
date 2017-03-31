@@ -77,9 +77,10 @@ GEM
       rake
     mina-logs (0.1.0)
       mina
-    mina-puma (1.0.1)
-      mina (~> 1.0.0)
-      puma (>= 2.13)
+    mina-sidekiq (1.0.1)
+      mina (>= 1.0.2)
+    mina-unicorn (1.1.0)
+      mina (~> 1.0)
     mini_portile2 (2.1.0)
     minitest (4.7.5)
     multi_json (1.12.1)
@@ -92,7 +93,6 @@ GEM
     pg (0.15.1-x64-mingw32)
     polyglot (0.3.5)
     power_assert (1.0.1)
-    puma (3.8.2)
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -188,9 +188,9 @@ DEPENDENCIES
   jquery-rails (= 2.2.1)
   mina
   mina-logs
-  mina-puma
+  mina-sidekiq
+  mina-unicorn
   pg (= 0.15.1)
-  puma
   rails (= 4.0.0)
   rails_12factor (= 0.0.2)
   rake (< 11.0)
