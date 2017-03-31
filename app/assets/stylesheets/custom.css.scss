@@ -176,6 +176,12 @@ height: auto !important;
 			border-bottom: 1px solid $grayLighter;
 		}
 	}
+	.gravatar {
+		float: left;
+		margin-right: 10px;
+		width: 40px;
+		height: 40px; 
+	}
 }
 
 /* microposts */
@@ -183,27 +189,56 @@ height: auto !important;
 	list-style: none;
 	margin: 10px 0 0 0;
 	li {
-	padding: 10px 0;
-	border-top: 1px solid #e8e8e8;
+		padding: 10px 0;
+		border-top: 1px solid #e8e8e8;
 	}
 	.gravatar {
-	float: left;
-	margin-right: 10px;
-	width: 60px;
-	height: 60px; 
+		float: left;
+		margin-right: 10px;
+		width: 60px;
+		height: 60px; 
+	}
+	.content {
+		display: block;
+	}
+	.timestamp {
+		color: $grayLight;
+	}
 
-}
-.content {
-	display: block;
-}
-.timestamp {
-	color: $grayLight;
-}
-
-aside {
-	textarea {
-	height: 100px;
-	margin-bottom: 5px;
+	aside {
+		textarea {
+			height: 100px;
+			margin-bottom: 5px;
+		}
 	}
 }
+
+.stats {
+overflow:auto;
+a{
+float:left;
+padding:010px;
+border-left:1pxsolid$grayLighter;
+color:gray;
+&:first-child {
+padding-left:0;
+border:0;
+}
+&:hover {
+text-decoration:none;
+color:$blue;
+}
+}
+strong {
+display:block;
+}
+}
+.user_avatars {
+/*		overflow: auto; */
+		margin-top: 10px;
+		.gravatar {
+			margin: 2px 2px;
+			width: 20px;
+			height: 20px; 
+		}
 }
