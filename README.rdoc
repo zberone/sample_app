@@ -6,9 +6,9 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
-2.2.6
+
 * System dependencies
-windows 10
+
 * Configuration
 
 * Database creation
@@ -22,22 +22,7 @@ windows 10
 * Deployment instructions
 
 * ...
-1.windows中scss&js不能加载问题，修改application.html.erb
-<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 
-2.加载JS，路由出错，修改routes.rb
-match '/signout', to: 'sessions#destroy', via: 'delete' <<<>>><%= link_to "Sign out",signout_path, method: "delete"%>
-
-3.rspec不能加载具名路由，添加如下spec_helper.rb
-RSpec.configure do |config|
-config.include Rails.application.routes.url_helpers
-end
-
-get '/signout', to: 'sessions#destroy', via: 'delete' <<<>>><%= link_to "Sign out",signout_path %>
-
-4.rspec NameError:undefined local variable or method `cookies'
-在describe "****" do中添加请求类型 type: :request， 如：describe "****", type: :request do
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
